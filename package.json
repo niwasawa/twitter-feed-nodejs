@@ -1,0 +1,24 @@
+{
+  "name": "twitter-feed",
+  "version": "1.0.0",
+  "description": "Twitter RSS feed Node.js library",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/niwasawa/twitter-feed-nodejs.git"
+  },
+  "keywords": [
+    "twitter",
+    "feed",
+    "rss"
+  ],
+  "author": "Naoki Iwasawa",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/niwasawa/twitter-feed-nodejs/issues"
+  },
+  "homepage": "https://github.com/niwasawa/twitter-feed-nodejs#readme"
+}
