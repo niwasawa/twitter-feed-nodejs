@@ -3,7 +3,7 @@
 const Twitter = require('twitter');
 const Feed = require('feed').Feed;
 
-class TwitterFeed {
+class TwitterRSSFeed {
 
   constructor(credentials) {
     this.t = new Twitter({
@@ -48,5 +48,5 @@ class TwitterFeed {
   }
 }
 
-module.exports = TwitterFeed;
+module.exports = TwitterRSSFeed;
 

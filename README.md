@@ -1,11 +1,11 @@
-# TwitterFeed: Twitter RSS feed Node.js library
+# TwitterRSSFeed: Twitter RSS feed Node.js library
 
 This library is under development and unstable.
 
 ## Installation
 
 ```
-$ npm install twitter-feed
+$ npm install twitter-rss-feed
 ```
 
 ## Usage
@@ -13,9 +13,9 @@ $ npm install twitter-feed
 ```nodejs
 'use strict';
 
-const TwitterFeed = require('twitter-feed');
+const TwitterRSSFeed = require('twitter-rss-feed');
 
-const tf = new TwitterFeed({
+const tf = new TwitterRSSFeed({
   consumer_key: 'YOUR_CONSUMER_KEY',
   consumer_secret: 'YOUR_CONSUMER_SECRET',
   token: 'YOUR_ACCESS_TOKEN',
