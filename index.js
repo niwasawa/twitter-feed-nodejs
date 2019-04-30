@@ -18,14 +18,26 @@ class TwitterRSSFeed {
 
     const self = this;
 
-    this.t.get('statuses/user_timeline', params, function(error, tweets, response) {
-      if (error) {
-        callback(error, null);
-      } else {
-        const rss = self.make_rss(info, tweets);
-        callback(null, rss);
-      }
+    const p = new Promise((resolve, reject) => {
+      self.t.get('statuses/user_timeline', params, (error, tweets, response) => {
+        try {
+          if (error) {
+            reject(error);
+          } else {
+            const rss = self.make_rss(info, tweets);
+            resolve(rss);
+          }
+        } catch (e) {
+          reject(e);
+        }
+      });
     });
+
+    if (callback) {
+      p.then((rss) => callback(null, rss)).catch((error) => callback(error, null));
+    } else {
+      return p;
+    }
   }
 
   make_rss(info, tweets) {
