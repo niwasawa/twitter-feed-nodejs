@@ -17,14 +17,14 @@ $ npm install twitter-rss-feed
 
 const TwitterRSSFeed = require('twitter-rss-feed');
 
-const tf = new TwitterRSSFeed({
+const trf = new TwitterRSSFeed({
   consumer_key: 'YOUR_CONSUMER_KEY',
   consumer_secret: 'YOUR_CONSUMER_SECRET',
   token: 'YOUR_ACCESS_TOKEN',
   token_secret: 'YOUR_ACCESS_SECRET'
 });
 
-const promise = tf.user_timeline({
+const promise = trf.user_timeline({
   'screen_name' : 'YOUR_SCREEN_NAME',
   'count' : '20',
   'tweet_mode' : 'extended'
@@ -53,14 +53,14 @@ promise
 
 const TwitterRSSFeed = require('twitter-rss-feed');
 
-const tf = new TwitterRSSFeed({
+const trf = new TwitterRSSFeed({
   consumer_key: 'YOUR_CONSUMER_KEY',
   consumer_secret: 'YOUR_CONSUMER_SECRET',
   token: 'YOUR_ACCESS_TOKEN',
   token_secret: 'YOUR_ACCESS_SECRET'
 });
 
-tf.user_timeline({
+trf.user_timeline({
   'screen_name' : 'YOUR_SCREEN_NAME',
   'count' : '20',
   'tweet_mode' : 'extended'
@@ -71,12 +71,12 @@ tf.user_timeline({
     'link' : 'https://twitter.com/YOUR_SCREEN_NAME'
   },
 }, {
-}, function(error, data) {
+}, function(error, rss) {
   if (error) {
     console.log('ERROR');
     console.log(error);
   } else {
-    console.log(data);
+    console.log(rss);
   }
 });
 ```
