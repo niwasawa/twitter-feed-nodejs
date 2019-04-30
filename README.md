@@ -1,5 +1,9 @@
 # TwitterRSSFeed: Twitter RSS feed Node.js library
 
+[![npm version](https://badge.fury.io/js/twitter-rss-feed.svg)](https://badge.fury.io/js/twitter-rss-feed)
+
+[twitter\-rss\-feed \- npm](https://www.npmjs.com/package/twitter-rss-feed)
+
 This library is under development and unstable.
 
 ## Installation
