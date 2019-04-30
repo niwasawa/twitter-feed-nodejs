@@ -83,6 +83,12 @@ promise
 });
 ```
 
+## Documentation
+
+- GET statuses/user_timeline — Twitter Developers https://developer.twitter.com/en/docs/tweets/timelines/api-reference/get-statuses-user_timeline
+- Tweet updates — Twitter Developers https://developer.twitter.com/en/docs/tweets/tweet-updates.html
+  - more than 140 characters, tweet_mode=extended, full_text
+
 ## License
 
 The package is available as open source under the terms of the [MIT License](https://opensource.org/licenses/MIT).
