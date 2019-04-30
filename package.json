@@ -1,7 +1,7 @@
 {
   "name": "twitter-feed",
   "version": "1.0.0",
-  "description": "Twitter RSS feed Node.js library",
+  "description": "TwitterFeed: Twitter RSS feed Node.js library",
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
@@ -20,9 +20,10 @@
   "bugs": {
     "url": "https://github.com/niwasawa/twitter-feed-nodejs/issues"
   },
-  "homepage": "https://github.com/niwasawa/twitter-feed-nodejs#readme",
+  "homepage": "https://github.com/niwasawa/twitter-feed-nodejs",
   "dependencies": {
     "feed": "^2.0.4",
     "twitter": "^1.7.1"
   }
 }
+
