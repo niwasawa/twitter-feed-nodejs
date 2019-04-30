@@ -10,6 +10,44 @@ $ npm install twitter-rss-feed
 
 ## Usage
 
+### Use promise object
+
+```nodejs
+'use strict';
+
+const TwitterRSSFeed = require('twitter-rss-feed');
+
+const tf = new TwitterRSSFeed({
+  consumer_key: 'YOUR_CONSUMER_KEY',
+  consumer_secret: 'YOUR_CONSUMER_SECRET',
+  token: 'YOUR_ACCESS_TOKEN',
+  token_secret: 'YOUR_ACCESS_SECRET'
+});
+
+const promise = tf.user_timeline({
+  'screen_name' : 'YOUR_SCREEN_NAME',
+  'count' : '20',
+  'tweet_mode' : 'extended'
+}, {
+  'channel' : {
+    'title' : 'Your RSS feed title',
+    'description' : 'Your RSS feed title',
+    'link' : 'https://twitter.com/YOUR_SCREEN_NAME'
+  },
+});
+
+promise
+.then(function(rss) {
+  console.log(rss);
+})
+.catch(function(error) {
+  console.log('ERROR');
+  console.log(error);
+});
+```
+
+### Use callback function
+
 ```nodejs
 'use strict';
 
