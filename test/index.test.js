@@ -16,7 +16,7 @@ describe('Test a class TwitterRSSFeed', () => {
     expect(trf).toEqual(expect.anything());
   });
 
-  test('Call make_rss', async () => {
+  test('Call _make_rss', async () => {
 
     const info = {
       'channel' : {
@@ -28,7 +28,7 @@ describe('Test a class TwitterRSSFeed', () => {
 
     const tweets = require('./data/statuses_user_timeline.json');
 
-    const rss = trf.make_rss(info, tweets);
+    const rss = trf._make_rss(info, tweets);
 
     const parser = new Parser();
     const feed = await parser.parseString(rss);

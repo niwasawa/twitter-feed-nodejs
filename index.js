@@ -24,7 +24,7 @@ class TwitterRSSFeed {
           if (error) {
             reject(error);
           } else {
-            const rss = self.make_rss(info, tweets);
+            const rss = self._make_rss(info, tweets);
             resolve(rss);
           }
         } catch (e) {
@@ -40,7 +40,7 @@ class TwitterRSSFeed {
     }
   }
 
-  make_rss(info, tweets) {
+  _make_rss(info, tweets) {
 
     const feed = new Feed({
       title: info.channel.title,
