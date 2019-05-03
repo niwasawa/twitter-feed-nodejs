@@ -103,8 +103,10 @@ $ npm test
 
 ### Install local for testing
 
+Specify a local repository directory.
+
 ```
-$ npm install LOCAL_REPOSITORY_PATH/twitter-rss-feed-nodejs/
+$ npm install ../twitter-rss-feed-nodejs/
 ```
 
 ### Release
