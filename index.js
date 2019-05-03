@@ -41,13 +41,15 @@ class TwitterRSSFeed {
   }
 
   make_rss(info, tweets) {
+
     const feed = new Feed({
       title: info.channel.title,
       description: info.channel.description,
       link: info.channel.link
     });
+
     tweets.forEach(tweet => {
-      const text = tweet.full_text ? tweet.full_text : tweet.text;
+      const text = this._get_text(tweet);
       const url = 'https://twitter.com/' + tweet.user.screen_name + '/status/' + tweet.id_str;
       feed.addItem({
         title: text,
@@ -56,8 +58,28 @@ class TwitterRSSFeed {
         date: new Date(tweet.created_at)
       });
     });
+
     return feed.rss2();
   }
+
+  _get_text(tweet) {
+    // Use full_text for more than 140 characters.
+    //
+    // ref. Tweet updates — Twitter Developers
+    // https://developer.twitter.com/en/docs/tweets/tweet-updates.html
+    if (tweet.retweeted_status) {
+      let text;
+      if (tweet.retweeted_status.full_text) {
+        text = tweet.retweeted_status.full_text;
+      } else {
+        text = tweet.retweeted_status.text;
+      }
+      const screen_name = tweet.retweeted_status.user.screen_name;
+      return 'RT @' + screen_name + ': ' + text;
+    } else {
+      return tweet.full_text ? tweet.full_text : tweet.text;
+    }
+ }
 }
 
 module.exports = TwitterRSSFeed;
