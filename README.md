@@ -93,6 +93,33 @@ promise
 - Tweet updates — Twitter Developers https://developer.twitter.com/en/docs/tweets/tweet-updates.html
   - more than 140 characters, tweet_mode=extended, full_text
 
+## Development
+
+### Run testing
+
+```
+$ npm test
+```
+
+### Install local for testing
+
+```
+$ npm install LOCAL_REPOSITORY_PATH/twitter-rss-feed-nodejs/
+```
+
+### Release
+
+```
+$ rm package-lock.json
+$ rm -r node_modules/
+$ npm publish
+```
+
+```
+$ git tag -a vX.X.X -m "YOUR TAGGING MESSAGE"
+$ git push origin tags/vX.X.X
+```
+
 ## License
 
 The package is available as open source under the terms of the [MIT License](https://opensource.org/licenses/MIT).
