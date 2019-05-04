@@ -14,30 +14,10 @@ class TwitterRSSFeed {
     });
   }
 
-  user_timeline(params, info, opts, callback) {
-
-    const self = this;
-
-    const p = new Promise((resolve, reject) => {
-      self.t.get('statuses/user_timeline', params, (error, tweets, response) => {
-        try {
-          if (error) {
-            reject(error);
-          } else {
-            const rss = self._make_rss(info, tweets);
-            resolve(rss);
-          }
-        } catch (e) {
-          reject(e);
-        }
-      });
-    });
-
-    if (callback) {
-      p.then((rss) => callback(null, rss)).catch((error) => callback(error, null));
-    } else {
-      return p;
-    }
+  async user_timeline(params, info, opts) {
+    const tweets = await this.t.get('statuses/user_timeline', params);
+    const rss = this._make_rss(info, tweets);
+    return rss;
   }
 
   _make_rss(info, tweets) {

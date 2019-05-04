@@ -46,20 +46,9 @@ const info = {
   }
 };
 
-// reservated parameters for future
-const opts = {};
-
-// callback function
-const callback = function(error, rss) {
-  if (error) {
-    console.log(error);
-  } else {
-    console.log(rss);
-  }
-};
-
 // create RSS feed
-trf.user_timeline(params, info, opts, callback);
+const rss = await trf.user_timeline(params, info);
+console.log(rss);
 ```
 
 ### Use promise object
