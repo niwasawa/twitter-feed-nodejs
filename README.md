@@ -75,6 +75,30 @@ const rss = await trf.favorites(params, info);
 console.log(rss);
 ```
 
+### Use search method
+
+```node.js
+// parameters for Twitter API (Standard search API)
+const params = {
+  'q' : 'SEARCH_QUERY',
+  'count' : '20',
+  'tweet_mode' : 'extended'
+};
+
+// information of RSS feed
+const info = {
+  'channel' : {
+    'title' : 'Your RSS feed title',
+    'description' : 'Your RSS feed title',
+    'link' : 'https://twitter.com/search?q=SEARCH_QUERY'
+  }
+};
+
+// create RSS feed
+const rss = await trf.search(params, info);
+console.log(rss);
+```
+
 ### Use promise object
 
 ```nodejs
@@ -108,6 +132,7 @@ promise
 
 - GET statuses/user_timeline — Twitter Developers https://developer.twitter.com/en/docs/tweets/timelines/api-reference/get-statuses-user_timeline
 - GET favorites/list — Twitter Developers https://developer.twitter.com/en/docs/tweets/post-and-engage/api-reference/get-favorites-list
+- Standard search API — Twitter Developers https://developer.twitter.com/en/docs/tweets/search/api-reference/get-search-tweets
 - Tweet updates — Twitter Developers https://developer.twitter.com/en/docs/tweets/tweet-updates.html
   - more than 140 characters, tweet_mode=extended, full_text
 

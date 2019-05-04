@@ -25,6 +25,13 @@ class TwitterRSSFeed {
     const rss = this._make_rss(info, tweets);
     return rss;
   }
+
+  async search(params, info, opts) {
+    const searched = await this.t.get('search/tweets', params);
+    const tweets = searched.statuses;
+    const rss = this._make_rss(info, tweets);
+    return rss;
+  }
  
   _make_rss(info, tweets) {
 
