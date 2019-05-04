@@ -59,7 +59,7 @@ class TwitterRSSFeed {
     } else {
       return tweet.full_text ? tweet.full_text : tweet.text;
     }
- }
+  }
 }
 
 module.exports = TwitterRSSFeed;
