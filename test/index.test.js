@@ -67,6 +67,24 @@ describe('Test a class TwitterRSSFeed', () => {
       expect(feed.items[0].content).toEqual('TEST: more than 140 characters. TEST,TEST,TEST,TEST,TEST,TEST,TEST,TEST,TEST,TEST,TEST,TEST,TEST,TEST,TEST,TEST,TEST,TEST,TEST,TEST,TEST,TEST,TEST,TEST,TEST,TEST,TEST,TEST,TEST,TEST,TEST,TEST,TEST,TEST,TEST,TEST,TEST,TEST,TEST,TEST,TEST,TEST,TEST,TEST,TEST,TEST,TEST,TEST,TEST,ZZZ');
     });
 
+    test('For search', async () => {
+  
+      const searched = require('./data/search_tweets.json');
+      const tweets = searched.statuses;
+  
+      const rss = trf._make_rss(info, tweets);
+  
+      const parser = new Parser();
+      const feed = await parser.parseString(rss);
+  
+      // title
+      expect(feed.items[0].title).toEqual('search_test_maigolab: more than 140 characters. search test maigolab,TEST,TEST,TEST,TEST,TEST,TEST,TEST,TEST,TEST,TEST,TEST,TEST,TEST,TEST,TEST,TEST,TEST,TEST,TEST,TEST,TEST,TEST,TEST,TEST,TEST,TEST,TEST,TEST,TEST,TEST,TEST,TEST,TEST,TEST,TEST,TEST,TEST,TEST,TEST,TEST,TEST,ZZZZZZ');
+      // link
+      expect(feed.items[0].link).toEqual('https://twitter.com/niwasawa/status/1124295153470955520');
+      // description
+      expect(feed.items[0].content).toEqual('search_test_maigolab: more than 140 characters. search test maigolab,TEST,TEST,TEST,TEST,TEST,TEST,TEST,TEST,TEST,TEST,TEST,TEST,TEST,TEST,TEST,TEST,TEST,TEST,TEST,TEST,TEST,TEST,TEST,TEST,TEST,TEST,TEST,TEST,TEST,TEST,TEST,TEST,TEST,TEST,TEST,TEST,TEST,TEST,TEST,TEST,TEST,ZZZZZZ');
+    });
+
   });
 
 });
