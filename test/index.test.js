@@ -28,14 +28,6 @@ describe('Test a class TwitterRSSFeed', () => {
  
     test('For user_timeline', async () => {
   
-      const info = {
-        'channel' : {
-          'title' : 'Your RSS feed title',
-          'description' : 'Your RSS feed title',
-          'link' : 'https://twitter.com/YOUR_SCREEN_NAME'
-        }
-      };
-  
       const tweets = require('./data/statuses_user_timeline.json');
   
       const rss = trf._make_rss(info, tweets);
@@ -56,6 +48,23 @@ describe('Test a class TwitterRSSFeed', () => {
       expect(feed.items[1].link).toEqual('https://twitter.com/niwasawa/status/1123218839552970753');
       // description
       expect(feed.items[1].content).toEqual('RT @maigolab_test: TEST: more than 140 characters. TEST,TEST,TEST,TEST,TEST,TEST,TEST,TEST,TEST,TEST,TEST,TEST,TEST,TEST,TEST,TEST,TEST,TEST,TEST,TEST,TEST,TEST,TEST,TEST,TEST,TEST,TEST,TEST,TEST,TEST,TEST,TEST,TEST,TEST,TEST,TEST,TEST,TEST,TEST,TEST,TEST,TEST,TEST,TEST,TEST,TEST,TEST,TEST,TEST,XYZ');
+    });
+
+    test('For favorites', async () => {
+  
+      const tweets = require('./data/favorites_list.json');
+  
+      const rss = trf._make_rss(info, tweets);
+  
+      const parser = new Parser();
+      const feed = await parser.parseString(rss);
+  
+      // title
+      expect(feed.items[0].title).toEqual('TEST: more than 140 characters. TEST,TEST,TEST,TEST,TEST,TEST,TEST,TEST,TEST,TEST,TEST,TEST,TEST,TEST,TEST,TEST,TEST,TEST,TEST,TEST,TEST,TEST,TEST,TEST,TEST,TEST,TEST,TEST,TEST,TEST,TEST,TEST,TEST,TEST,TEST,TEST,TEST,TEST,TEST,TEST,TEST,TEST,TEST,TEST,TEST,TEST,TEST,TEST,TEST,ZZZ');
+      // link
+      expect(feed.items[0].link).toEqual('https://twitter.com/maigolab_test/status/1123825480799531010');
+      // description
+      expect(feed.items[0].content).toEqual('TEST: more than 140 characters. TEST,TEST,TEST,TEST,TEST,TEST,TEST,TEST,TEST,TEST,TEST,TEST,TEST,TEST,TEST,TEST,TEST,TEST,TEST,TEST,TEST,TEST,TEST,TEST,TEST,TEST,TEST,TEST,TEST,TEST,TEST,TEST,TEST,TEST,TEST,TEST,TEST,TEST,TEST,TEST,TEST,TEST,TEST,TEST,TEST,TEST,TEST,TEST,TEST,ZZZ');
     });
 
   });

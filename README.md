@@ -51,6 +51,30 @@ const rss = await trf.user_timeline(params, info);
 console.log(rss);
 ```
 
+### Use favorites method
+
+```node.js
+// parameters for Twitter API (GET favorites/list)
+const params = {
+  'screen_name' : 'YOUR_SCREEN_NAME',
+  'count' : '20',
+  'tweet_mode' : 'extended'
+};
+
+// information of RSS feed
+const info = {
+  'channel' : {
+    'title' : 'Your RSS feed title',
+    'description' : 'Your RSS feed title',
+    'link' : 'https://twitter.com/YOUR_SCREEN_NAME/likes'
+  }
+};
+
+// create RSS feed
+const rss = await trf.favorites(params, info);
+console.log(rss);
+```
+
 ### Use promise object
 
 ```nodejs
@@ -83,6 +107,7 @@ promise
 ## Documentation
 
 - GET statuses/user_timeline — Twitter Developers https://developer.twitter.com/en/docs/tweets/timelines/api-reference/get-statuses-user_timeline
+- GET favorites/list — Twitter Developers https://developer.twitter.com/en/docs/tweets/post-and-engage/api-reference/get-favorites-list
 - Tweet updates — Twitter Developers https://developer.twitter.com/en/docs/tweets/tweet-updates.html
   - more than 140 characters, tweet_mode=extended, full_text
 
