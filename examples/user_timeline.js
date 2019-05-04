@@ -16,33 +16,41 @@
 //  "token_secret": "XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX"
 // }
 
-const twitter_credentials_json_path = process.argv[2];
-const credentials = JSON.parse(require('fs').readFileSync(twitter_credentials_json_path));
+(async function() {
 
-(async function(credentials) {
+  try {
 
-  // Create a instance of TwitterRSSFeed
-  const TwitterRSSFeed = require('twitter-rss-feed');
-  const trf = new TwitterRSSFeed(credentials);
-  
-  // parameters for Twitter API (GET statuses/user_timeline)
-  const params = {
-    'count' : '3',
-    'tweet_mode' : 'extended'
-  };
-  
-  // information of RSS feed
-  const info = {
-    'channel' : {
-      'title' : 'Your RSS feed title',
-      'description' : 'Your RSS feed title',
-      'link' : 'https://twitter.com/YOUR_SCREEN_NAME'
-    }
-  };
-  
-  // create RSS feed
-  const rss = await trf.user_timeline(params, info);
-  console.log(rss);
+    // Read credentials JSON file
+    const twitter_credentials_json_path = process.argv[2];
+    const credentials = JSON.parse(require('fs').readFileSync(twitter_credentials_json_path));
 
-}(credentials));
+    // Create a instance of TwitterRSSFeed
+    const TwitterRSSFeed = require('twitter-rss-feed');
+    const trf = new TwitterRSSFeed(credentials);
+    
+    // parameters for Twitter API (GET statuses/user_timeline)
+    const params = {
+      'count' : '3',
+      'tweet_mode' : 'extended'
+    };
+    
+    // information of RSS feed
+    const info = {
+      'channel' : {
+        'title' : 'Your RSS feed title',
+        'description' : 'Your RSS feed title',
+        'link' : 'https://twitter.com/YOUR_SCREEN_NAME'
+      }
+    };
+    
+    // create RSS feed
+    const rss = await trf.user_timeline(params, info);
+    console.log(rss);
+
+  } catch(error) {
+    console.log('ERROR');
+    console.log(error);
+  }
+
+}());
 
