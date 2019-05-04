@@ -76,6 +76,10 @@ promise
 });
 ```
 
+## Examples
+
+- https://github.com/niwasawa/twitter-rss-feed-nodejs/tree/master/examples
+
 ## Documentation
 
 - GET statuses/user_timeline — Twitter Developers https://developer.twitter.com/en/docs/tweets/timelines/api-reference/get-statuses-user_timeline
