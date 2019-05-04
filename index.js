@@ -20,6 +20,12 @@ class TwitterRSSFeed {
     return rss;
   }
 
+  async favorites(params, info, opts) {
+    const tweets = await this.t.get('favorites/list', params);
+    const rss = this._make_rss(info, tweets);
+    return rss;
+  }
+ 
   _make_rss(info, tweets) {
 
     const feed = new Feed({
