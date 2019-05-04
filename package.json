@@ -1,6 +1,6 @@
 {
   "name": "twitter-rss-feed",
-  "version": "1.0.4",
+  "version": "1.0.5",
   "description": "TwitterRSSFeed: Twitter RSS feed Node.js library",
   "main": "index.js",
   "scripts": {
