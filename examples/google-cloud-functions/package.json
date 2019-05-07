@@ -1,0 +1,8 @@
+{
+  "name": "twitter-rss-feed-gcf-sample",
+  "version": "0.0.1",
+  "dependencies": {
+    "twitter-rss-feed": "^1.0.7"
+  }
+}
+
