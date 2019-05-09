@@ -149,7 +149,7 @@ exports.helloWorld = (req, res) => {
       });
       break;
     case 'search_tweets':
-      search_tweets(req.query).then((rss) => {
+      search_tweets_rss(req.query).then((rss) => {
         res.status(200).contentType('application/xml').send(rss);
       }).catch((error) => {
         res.status(500).send('ERROR: search');
