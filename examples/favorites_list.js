@@ -4,8 +4,8 @@
 //
 // $ cd your_working_directory
 // $ npm install twitter-rss-feed
-// $ cp node_modules/twitter-rss-feed/examples/favorites.js .
-// $ node favorites.js your_twitter_credentials.json
+// $ cp node_modules/twitter-rss-feed/examples/favorites_list.js .
+// $ node favorites_list.js your_twitter_credentials.json
 
 // Twitter credentials JSON file format
 //
@@ -44,7 +44,7 @@
     };
     
     // create RSS feed
-    const rss = await trf.favorites(params, info);
+    const rss = await trf.favorites_list(params, info);
     console.log(rss);
 
   } catch(error) {

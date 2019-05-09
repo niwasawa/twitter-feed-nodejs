@@ -26,7 +26,7 @@ describe('Test a class TwitterRSSFeed', () => {
       }
     };
  
-    test('For user_timeline', async () => {
+    test('For statuses_user_timeline', async () => {
   
       const tweets = require('./data/statuses_user_timeline.json');
   
@@ -50,7 +50,7 @@ describe('Test a class TwitterRSSFeed', () => {
       expect(feed.items[1].content).toEqual('RT @maigolab_test: TEST: more than 140 characters. TEST,TEST,TEST,TEST,TEST,TEST,TEST,TEST,TEST,TEST,TEST,TEST,TEST,TEST,TEST,TEST,TEST,TEST,TEST,TEST,TEST,TEST,TEST,TEST,TEST,TEST,TEST,TEST,TEST,TEST,TEST,TEST,TEST,TEST,TEST,TEST,TEST,TEST,TEST,TEST,TEST,TEST,TEST,TEST,TEST,TEST,TEST,TEST,TEST,XYZ');
     });
 
-    test('For favorites', async () => {
+    test('For favorites_list', async () => {
   
       const tweets = require('./data/favorites_list.json');
   
@@ -67,7 +67,7 @@ describe('Test a class TwitterRSSFeed', () => {
       expect(feed.items[0].content).toEqual('TEST: more than 140 characters. TEST,TEST,TEST,TEST,TEST,TEST,TEST,TEST,TEST,TEST,TEST,TEST,TEST,TEST,TEST,TEST,TEST,TEST,TEST,TEST,TEST,TEST,TEST,TEST,TEST,TEST,TEST,TEST,TEST,TEST,TEST,TEST,TEST,TEST,TEST,TEST,TEST,TEST,TEST,TEST,TEST,TEST,TEST,TEST,TEST,TEST,TEST,TEST,TEST,ZZZ');
     });
 
-    test('For search', async () => {
+    test('For search_tweets', async () => {
   
       const searched = require('./data/search_tweets.json');
       const tweets = searched.statuses;

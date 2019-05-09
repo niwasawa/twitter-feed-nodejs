@@ -14,19 +14,19 @@ class TwitterRSSFeed {
     });
   }
 
-  async user_timeline(params, info, opts) {
+  async statuses_user_timeline(params, info, opts) {
     const tweets = await this.t.get('statuses/user_timeline', params);
     const rss = this._make_rss(info, tweets);
     return rss;
   }
 
-  async favorites(params, info, opts) {
+  async favorites_list(params, info, opts) {
     const tweets = await this.t.get('favorites/list', params);
     const rss = this._make_rss(info, tweets);
     return rss;
   }
 
-  async search(params, info, opts) {
+  async search_tweets(params, info, opts) {
     const searched = await this.t.get('search/tweets', params);
     const tweets = searched.statuses;
     const rss = this._make_rss(info, tweets);

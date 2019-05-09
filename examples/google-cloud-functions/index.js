@@ -4,13 +4,13 @@
 
 // Examples of URL parameters:
 //
-// ?method=user_timeline
-// ?method=user_timeline&screen_name=YOUR_SCREEN_NAME&count=3
+// ?method=statuses_user_timeline
+// ?method=statuses_user_timeline&screen_name=YOUR_SCREEN_NAME&count=3
 //
-// ?method=favorites
-// ?method=favorites&screen_name=YOUR_SCREEN_NAME&count=3
+// ?method=favorites_list
+// ?method=favorites_list&screen_name=YOUR_SCREEN_NAME&count=3
 //
-// ?method=search&q=YOUR_SEARCH_QUERY&count=3
+// ?method=search_tweets&q=YOUR_SEARCH_QUERY&count=3
 
 // your config
 function get_config() {
@@ -34,7 +34,7 @@ function get_twitter_rss_feed(credentials) {
 }
 
 // get user_timeline RSS
-async function get_user_timeline_rss(query) {
+async function statuses_user_timeline_rss(query) {
 
   try {
     const config = get_config();
@@ -51,13 +51,13 @@ async function get_user_timeline_rss(query) {
 
     const info = {
       'channel' : {
-        'title' : '@' + screen_name + ' user_timeline',
-        'description' : '@' + screen_name + ' user_timeline',
+        'title' : '@' + screen_name + ' statuses_user_timeline',
+        'description' : '@' + screen_name + ' statuses_user_timeline',
         'link' : 'https://twitter.com/' + screen_name
       }
     };
 
-    return await trf.user_timeline(params, info);
+    return await trf.statuses_user_timeline(params, info);
 
   } catch(error) {
     throw error;
@@ -65,7 +65,7 @@ async function get_user_timeline_rss(query) {
 };
 
 // get favorites RSS
-async function get_favorites_rss(query) {
+async function favorites_list_rss(query) {
 
   try {
     const config = get_config();
@@ -82,13 +82,13 @@ async function get_favorites_rss(query) {
 
     const info = {
       'channel' : {
-        'title' : '@' + screen_name + ' favorites',
-        'description' : '@' + screen_name + ' favorites',
+        'title' : '@' + screen_name + ' favorites_list',
+        'description' : '@' + screen_name + ' favorites_list',
         'link' : 'https://twitter.com/' + screen_name + '/likes'
       }
     };
 
-    return await trf.favorites(params, info);
+    return await trf.favorites_list(params, info);
 
   } catch(error) {
     throw error;
@@ -96,7 +96,7 @@ async function get_favorites_rss(query) {
 };
 
 // get search RSS
-async function get_search_rss(query) {
+async function search_tweets_rss(query) {
 
   try {
     const config = get_config();
@@ -119,7 +119,7 @@ async function get_search_rss(query) {
       }
     };
 
-    return await trf.search(params, info);
+    return await trf.search_tweets(params, info);
 
   } catch(error) {
     throw error;
@@ -134,22 +134,22 @@ async function get_search_rss(query) {
  */
 exports.helloWorld = (req, res) => {
   switch(req.query.method) {
-    case 'user_timeline':
-      get_user_timeline_rss(req.query).then((rss) => {
+    case 'statuses_user_timeline':
+      statuses_user_timeline_rss(req.query).then((rss) => {
         res.status(200).contentType('application/xml').send(rss);
       }).catch((error) => {
         res.status(500).send('ERROR: user_timeline');
       });
       break;
-    case 'favorites':
-      get_favorites_rss(req.query).then((rss) => {
+    case 'favorites_list':
+      favorites_list_rss(req.query).then((rss) => {
         res.status(200).contentType('application/xml').send(rss);
       }).catch((error) => {
         res.status(500).send('ERROR: favorites');
       });
       break;
-    case 'search':
-      get_search_rss(req.query).then((rss) => {
+    case 'search_tweets':
+      search_tweets(req.query).then((rss) => {
         res.status(200).contentType('application/xml').send(rss);
       }).catch((error) => {
         res.status(500).send('ERROR: search');

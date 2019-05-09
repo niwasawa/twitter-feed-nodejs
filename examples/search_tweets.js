@@ -4,8 +4,8 @@
 //
 // $ cd your_working_directory
 // $ npm install twitter-rss-feed
-// $ cp node_modules/twitter-rss-feed/examples/search.js .
-// $ node search.js your_twitter_credentials.json
+// $ cp node_modules/twitter-rss-feed/examples/search_tweets.js .
+// $ node search_tweets.js your_twitter_credentials.json
 
 // Twitter credentials JSON file format
 //
@@ -45,7 +45,7 @@
     };
     
     // create RSS feed
-    const rss = await trf.search(params, info);
+    const rss = await trf.search_tweets(params, info);
     console.log(rss);
 
   } catch(error) {
