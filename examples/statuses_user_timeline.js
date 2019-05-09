@@ -4,8 +4,8 @@
 //
 // $ cd your_working_directory
 // $ npm install twitter-rss-feed
-// $ cp node_modules/twitter-rss-feed/examples/user_timeline.js .
-// $ node user_timeline.js your_twitter_credentials.json
+// $ cp node_modules/twitter-rss-feed/examples/statuses_user_timeline.js .
+// $ node statuses_user_timeline.js your_twitter_credentials.json
 
 // Twitter credentials JSON file format
 //
@@ -44,7 +44,7 @@
     };
     
     // create RSS feed
-    const rss = await trf.user_timeline(params, info);
+    const rss = await trf.statuses_user_timeline(params, info);
     console.log(rss);
 
   } catch(error) {

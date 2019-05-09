@@ -27,7 +27,7 @@ const trf = new TwitterRSSFeed({
 });
 ```
 
-### Use user_timeline method
+### Use statuses_user_timeline method
 
 ```node.js
 // parameters for Twitter API (GET statuses/user_timeline)
@@ -47,11 +47,11 @@ const info = {
 };
 
 // create RSS feed
-const rss = await trf.user_timeline(params, info);
+const rss = await trf.statuses_user_timeline(params, info);
 console.log(rss);
 ```
 
-### Use favorites method
+### Use favorites_list method
 
 ```node.js
 // parameters for Twitter API (GET favorites/list)
@@ -71,11 +71,11 @@ const info = {
 };
 
 // create RSS feed
-const rss = await trf.favorites(params, info);
+const rss = await trf.favorites_list(params, info);
 console.log(rss);
 ```
 
-### Use search method
+### Use search_tweets method
 
 ```node.js
 // parameters for Twitter API (Standard search API)
@@ -95,15 +95,14 @@ const info = {
 };
 
 // create RSS feed
-const rss = await trf.search(params, info);
+const rss = await trf.search_tweets(params, info);
 console.log(rss);
 ```
 
 ### Use promise object
 
 ```nodejs
-// Do not specify a callback function
-const promise = trf.user_timeline({
+const promise = trf.statuses_user_timeline({
   'screen_name' : 'YOUR_SCREEN_NAME',
   'count' : '20',
   'tweet_mode' : 'extended'
