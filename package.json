@@ -27,6 +27,7 @@
   },
   "devDependencies": {
     "jest": "^24.7.1",
+    "jsdoc": "^3.6.1",
     "rss-parser": "^3.7.0"
   }
 }
