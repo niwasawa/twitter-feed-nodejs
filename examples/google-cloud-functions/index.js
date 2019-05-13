@@ -16,14 +16,14 @@
 function get_config() {
   return {
     twitter_credentials : {
-      consumer_key: 'YOUR_CONSUMER_KEY',
-      consumer_secret: 'YOUR_CONSUMER_SECRET',
-      token: 'YOUR_ACCESS_TOKEN',
-      token_secret: 'YOUR_ACCESS_SECRET'
+      consumer_key: process.env.YOUR_CONSUMER_KEY,
+      consumer_secret: process.env.YOUR_CONSUMER_SECRET,
+      token: process.env.YOUR_ACCESS_TOKEN,
+      token_secret: process.env.YOUR_ACCESS_SECRET
     },
-    default_screen_name: 'YOUR_SCREEN_NAME',
+    default_screen_name: process.env.DEFAULT_SCREEN_NAME,
     default_count: '100',
-    default_q: 'YOUR_SEARCH_QUERY'
+    default_q: process.env.DEFAULT_SEARCH_QUERY
   };
 }
 
