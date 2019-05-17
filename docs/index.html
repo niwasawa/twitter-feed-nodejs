@@ -1,0 +1,209 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>JSDoc: Home</title>
+
+    <script src="scripts/prettify/prettify.js"> </script>
+    <script src="scripts/prettify/lang-css.js"> </script>
+    <!--[if lt IE 9]>
+      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <link type="text/css" rel="stylesheet" href="styles/prettify-tomorrow.css">
+    <link type="text/css" rel="stylesheet" href="styles/jsdoc-default.css">
+</head>
+
+<body>
+
+<div id="main">
+
+    <h1 class="page-title">Home</h1>
+
+    
+
+
+
+    
+
+
+    <h3> </h3>
+
+
+
+
+
+
+
+
+
+
+    
+
+
+
+
+    <section>
+        <article><h1>TwitterRSSFeed: Twitter RSS feed Node.js library</h1>
+<p><a href="https://badge.fury.io/js/twitter-rss-feed"><img src="https://badge.fury.io/js/twitter-rss-feed.svg" alt="npm version"></a></p>
+<p><a href="https://www.npmjs.com/package/twitter-rss-feed">twitter-rss-feed - npm</a></p>
+<p>This library is under development and unstable.</p>
+<h2>Installation</h2>
+<pre class="prettyprint source"><code>$ npm install twitter-rss-feed
+</code></pre>
+<h2>Usage</h2>
+<h3>Creates a instance of TwitterRSSFeed</h3>
+<pre class="prettyprint source lang-node.js"><code>const TwitterRSSFeed = require('twitter-rss-feed');
+
+const trf = new TwitterRSSFeed({
+  consumer_key: 'YOUR_CONSUMER_KEY',
+  consumer_secret: 'YOUR_CONSUMER_SECRET',
+  token: 'YOUR_ACCESS_TOKEN',
+  token_secret: 'YOUR_ACCESS_SECRET'
+});
+</code></pre>
+<h3>Uses statuses_user_timeline method</h3>
+<pre class="prettyprint source lang-node.js"><code>// parameters for Twitter API (GET statuses/user_timeline)
+const params = {
+  'screen_name' : 'YOUR_SCREEN_NAME',
+  'count' : '20',
+  'tweet_mode' : 'extended'
+};
+
+// information of RSS feed
+const info = {
+  'channel' : {
+    'title' : 'Your RSS feed title',
+    'description' : 'Your RSS feed title',
+    'link' : 'https://twitter.com/YOUR_SCREEN_NAME'
+  }
+};
+
+// create RSS feed
+const rss = await trf.statuses_user_timeline(params, info);
+console.log(rss);
+</code></pre>
+<h3>Uses favorites_list method</h3>
+<pre class="prettyprint source lang-node.js"><code>// parameters for Twitter API (GET favorites/list)
+const params = {
+  'screen_name' : 'YOUR_SCREEN_NAME',
+  'count' : '20',
+  'tweet_mode' : 'extended'
+};
+
+// information of RSS feed
+const info = {
+  'channel' : {
+    'title' : 'Your RSS feed title',
+    'description' : 'Your RSS feed title',
+    'link' : 'https://twitter.com/YOUR_SCREEN_NAME/likes'
+  }
+};
+
+// create RSS feed
+const rss = await trf.favorites_list(params, info);
+console.log(rss);
+</code></pre>
+<h3>Uses search_tweets method</h3>
+<pre class="prettyprint source lang-node.js"><code>// parameters for Twitter API (Standard search API)
+const params = {
+  'q' : 'SEARCH_QUERY',
+  'count' : '20',
+  'tweet_mode' : 'extended'
+};
+
+// information of RSS feed
+const info = {
+  'channel' : {
+    'title' : 'Your RSS feed title',
+    'description' : 'Your RSS feed title',
+    'link' : 'https://twitter.com/search?q=SEARCH_QUERY'
+  }
+};
+
+// create RSS feed
+const rss = await trf.search_tweets(params, info);
+console.log(rss);
+</code></pre>
+<h3>Uses promise object</h3>
+<pre class="prettyprint source lang-nodejs"><code>const promise = trf.statuses_user_timeline({
+  'screen_name' : 'YOUR_SCREEN_NAME',
+  'count' : '20',
+  'tweet_mode' : 'extended'
+}, {
+  'channel' : {
+    'title' : 'Your RSS feed title',
+    'description' : 'Your RSS feed title',
+    'link' : 'https://twitter.com/YOUR_SCREEN_NAME'
+  },
+});
+
+promise
+.then(function(rss) {
+  console.log(rss);
+})
+.catch(function(error) {
+  console.log(error);
+});
+</code></pre>
+<h2>Examples</h2>
+<ul>
+<li><a href="https://github.com/niwasawa/twitter-rss-feed-nodejs/tree/master/examples">examples</a></li>
+</ul>
+<h2>Documentation</h2>
+<ul>
+<li><a href="https://developer.twitter.com/en/docs/tweets/timelines/api-reference/get-statuses-user_timeline">GET statuses/user_timeline — Twitter Developers</a></li>
+<li><a href="https://developer.twitter.com/en/docs/tweets/post-and-engage/api-reference/get-favorites-list">GET favorites/list — Twitter Developers</a></li>
+<li><a href="https://developer.twitter.com/en/docs/tweets/search/api-reference/get-search-tweets">Standard search API — Twitter Developers</a></li>
+<li><a href="https://developer.twitter.com/en/docs/tweets/tweet-updates.html">Tweet updates — Twitter Developers</a>
+<ul>
+<li>more than 140 characters, tweet_mode=extended, full_text</li>
+</ul>
+</li>
+</ul>
+<h2>Development</h2>
+<h3>Install dependent packages</h3>
+<pre class="prettyprint source"><code>$ npm install
+</code></pre>
+<h3>Run testing</h3>
+<pre class="prettyprint source"><code>$ npm test
+</code></pre>
+<h3>Install local for testing</h3>
+<p>Specify a local repository directory.</p>
+<pre class="prettyprint source"><code>$ npm install ../twitter-rss-feed-nodejs/
+</code></pre>
+<h3>Generate an API documentation</h3>
+<pre class="prettyprint source"><code>$ npm run jsdoc
+</code></pre>
+<h3>Release</h3>
+<pre class="prettyprint source"><code>$ rm package-lock.json
+$ rm -r node_modules/
+$ npm publish
+</code></pre>
+<pre class="prettyprint source"><code>$ git tag -a vX.X.X -m &quot;YOUR TAGGING MESSAGE&quot;
+$ git push origin tags/vX.X.X
+</code></pre>
+<h2>License</h2>
+<p>The package is available as open source under the terms of the <a href="https://opensource.org/licenses/MIT">MIT License</a>.</p></article>
+    </section>
+
+
+
+
+
+
+</div>
+
+<nav>
+    <h2><a href="index.html">Home</a></h2><h3>Classes</h3><ul><li><a href="TwitterRSSFeed.html">TwitterRSSFeed</a></li></ul><h3><a href="global.html">Global</a></h3>
+</nav>
+
+<br class="clear">
+
+<footer>
+    Documentation generated by <a href="https://github.com/jsdoc/jsdoc">JSDoc 3.6.2</a> on Fri May 17 2019 23:10:48 GMT+0900 (GMT+09:00)
+</footer>
+
+<script> prettyPrint(); </script>
+<script src="scripts/linenumber.js"> </script>
+</body>
+</html>
