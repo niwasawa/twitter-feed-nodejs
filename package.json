@@ -4,7 +4,7 @@
   "description": "TwitterRSSFeed: Twitter RSS feed Node.js library",
   "main": "index.js",
   "scripts": {
-    "test": "jest"
+    "test": "jest --coverage"
   },
   "repository": {
     "type": "git",
