@@ -140,7 +140,7 @@ promise
 ### Install dependent packages
 
 ```
-npm install
+$ npm install
 ```
 
 ### Run testing
