@@ -3,8 +3,16 @@
 const Twitter = require('twitter');
 const Feed = require('feed').Feed;
 
+/**
+ * TwitterRSSFeed class.
+ */
 class TwitterRSSFeed {
 
+  /**
+   * Creates a instance of TwitterRSSFeed.
+   * @param {Object} credentials - Twitter credentials
+   * @constructor
+   */
   constructor(credentials) {
     this.t = new Twitter({
       consumer_key: credentials.consumer_key,
@@ -14,18 +22,42 @@ class TwitterRSSFeed {
     });
   }
 
+  /**
+   * Returns a RSS feed of Twitter API (GET statuses/user_timeline).
+   * @param {Object} params - Parameters of Twitter API (GET statuses/user_timeline).
+   * @param {Object} info - A RSS information.
+   * @param {Object} opts - Unimplemented.
+   * @returns {Promise<string>} A RSS feed.
+   * @see {@link https://developer.twitter.com/en/docs/tweets/timelines/api-reference/get-statuses-user_timeline|GET statuses/user_timeline — Twitter Developers}
+   */
   async statuses_user_timeline(params, info, opts) {
     const tweets = await this.t.get('statuses/user_timeline', params);
     const rss = this._make_rss(info, tweets);
     return rss;
   }
 
+  /**
+   * Returns a RSS feed of Twitter API (GET favorites/list).
+   * @param {Object} params - Parameters of Twitter API (GET favorites/list).
+   * @param {Object} info - A RSS information.
+   * @param {Object} opts - Unimplemented.
+   * @returns {Promise<string>} A RSS feed.
+   * @see {@link https://developer.twitter.com/en/docs/tweets/post-and-engage/api-reference/get-favorites-list|GET favorites/list — Twitter Developers}
+   */
   async favorites_list(params, info, opts) {
     const tweets = await this.t.get('favorites/list', params);
     const rss = this._make_rss(info, tweets);
     return rss;
   }
 
+  /**
+   * Returns a RSS feed of Twitter API (Standard search API).
+   * @param {Object} params - Parameters of Twitter API (Standard search API).
+   * @param {Object} info - A RSS information.
+   * @param {Object} opts - Unimplemented.
+   * @returns {Promise<string>} A RSS feed.
+   * @see {@link https://developer.twitter.com/en/docs/tweets/search/api-reference/get-search-tweets|Standard search API — Twitter Developers}
+   */
   async search_tweets(params, info, opts) {
     const searched = await this.t.get('search/tweets', params);
     const tweets = searched.statuses;
