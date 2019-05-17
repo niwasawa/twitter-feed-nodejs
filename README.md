@@ -137,6 +137,12 @@ promise
 
 ## Development
 
+### Install dependent packages
+
+```
+npm install
+```
+
 ### Run testing
 
 ```
