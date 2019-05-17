@@ -9,8 +9,17 @@ const Feed = require('feed').Feed;
 class TwitterRSSFeed {
 
   /**
+   * Twitter credentials.
+   * @typedef {Object} Credentials
+   * @property {string} consumer_key - Consumer key
+   * @property {string} consumer_secret - Consumer secret
+   * @property {string} token - Access token
+   * @property {string} token_secret - Access secret
+   */
+
+  /**
    * Creates a instance of TwitterRSSFeed.
-   * @param {Object} credentials - Twitter credentials
+   * @param {Credentials} credentials - Twitter credentials
    * @constructor
    */
   constructor(credentials) {
