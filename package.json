@@ -4,6 +4,7 @@
   "description": "TwitterRSSFeed: Twitter RSS feed Node.js library",
   "main": "index.js",
   "scripts": {
+    "jsdoc": "./node_modules/.bin/jsdoc . --readme ./README.md -d ./docs",
     "test": "jest --coverage"
   },
   "repository": {
