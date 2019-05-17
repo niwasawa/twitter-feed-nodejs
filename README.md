@@ -2,7 +2,7 @@
 
 [![npm version](https://badge.fury.io/js/twitter-rss-feed.svg)](https://badge.fury.io/js/twitter-rss-feed)
 
-twitter-rss-feed - npm https://www.npmjs.com/package/twitter-rss-feed
+[twitter-rss-feed - npm](https://www.npmjs.com/package/twitter-rss-feed)
 
 This library is under development and unstable.
 
@@ -14,7 +14,7 @@ $ npm install twitter-rss-feed
 
 ## Usage
 
-### Create a instance of TwitterRSSFeed
+### Creates a instance of TwitterRSSFeed
 
 ```node.js
 const TwitterRSSFeed = require('twitter-rss-feed');
@@ -27,7 +27,7 @@ const trf = new TwitterRSSFeed({
 });
 ```
 
-### Use statuses_user_timeline method
+### Uses statuses_user_timeline method
 
 ```node.js
 // parameters for Twitter API (GET statuses/user_timeline)
@@ -51,7 +51,7 @@ const rss = await trf.statuses_user_timeline(params, info);
 console.log(rss);
 ```
 
-### Use favorites_list method
+### Uses favorites_list method
 
 ```node.js
 // parameters for Twitter API (GET favorites/list)
@@ -75,7 +75,7 @@ const rss = await trf.favorites_list(params, info);
 console.log(rss);
 ```
 
-### Use search_tweets method
+### Uses search_tweets method
 
 ```node.js
 // parameters for Twitter API (Standard search API)
@@ -99,7 +99,7 @@ const rss = await trf.search_tweets(params, info);
 console.log(rss);
 ```
 
-### Use promise object
+### Uses promise object
 
 ```nodejs
 const promise = trf.statuses_user_timeline({
@@ -125,14 +125,14 @@ promise
 
 ## Examples
 
-- https://github.com/niwasawa/twitter-rss-feed-nodejs/tree/master/examples
+- [examples](https://github.com/niwasawa/twitter-rss-feed-nodejs/tree/master/examples)
 
 ## Documentation
 
-- GET statuses/user_timeline — Twitter Developers https://developer.twitter.com/en/docs/tweets/timelines/api-reference/get-statuses-user_timeline
-- GET favorites/list — Twitter Developers https://developer.twitter.com/en/docs/tweets/post-and-engage/api-reference/get-favorites-list
-- Standard search API — Twitter Developers https://developer.twitter.com/en/docs/tweets/search/api-reference/get-search-tweets
-- Tweet updates — Twitter Developers https://developer.twitter.com/en/docs/tweets/tweet-updates.html
+- [GET statuses/user_timeline — Twitter Developers](https://developer.twitter.com/en/docs/tweets/timelines/api-reference/get-statuses-user_timeline)
+- [GET favorites/list — Twitter Developers](https://developer.twitter.com/en/docs/tweets/post-and-engage/api-reference/get-favorites-list)
+- [Standard search API — Twitter Developers](https://developer.twitter.com/en/docs/tweets/search/api-reference/get-search-tweets)
+- [Tweet updates — Twitter Developers](https://developer.twitter.com/en/docs/tweets/tweet-updates.html)
   - more than 140 characters, tweet_mode=extended, full_text
 
 ## Development
@@ -155,6 +155,12 @@ Specify a local repository directory.
 
 ```
 $ npm install ../twitter-rss-feed-nodejs/
+```
+
+### Generate an API documentation
+
+```
+$ npm run jsdoc
 ```
 
 ### Release
