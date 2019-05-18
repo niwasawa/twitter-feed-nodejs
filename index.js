@@ -3,6 +3,15 @@
 const Twitter = require('twitter');
 const Feed = require('feed').Feed;
 
+/*
+ * PublicUsersFilter class.
+ */
+class PublicUsersFilter {
+  filter(tweets) {
+    return tweets.filter(tweet => !tweet.user.protected);
+  }
+}
+
 /**
  * TwitterRSSFeed class.
  */
@@ -39,9 +48,10 @@ class TwitterRSSFeed {
    * @returns {Promise<string>} A RSS feed.
    * @see {@link https://developer.twitter.com/en/docs/tweets/timelines/api-reference/get-statuses-user_timeline|GET statuses/user_timeline — Twitter Developers}
    */
-  async statuses_user_timeline(params, info, opts) {
+  async statuses_user_timeline(params, info, opts = {}) {
     const tweets = await this.t.get('statuses/user_timeline', params);
-    const rss = this._make_rss(info, tweets);
+    const filtered_tweets = this._filter_tweets(tweets, opts.filters);
+    const rss = this._make_rss(info, filtered_tweets);
     return rss;
   }
 
@@ -53,9 +63,10 @@ class TwitterRSSFeed {
    * @returns {Promise<string>} A RSS feed.
    * @see {@link https://developer.twitter.com/en/docs/tweets/post-and-engage/api-reference/get-favorites-list|GET favorites/list — Twitter Developers}
    */
-  async favorites_list(params, info, opts) {
+  async favorites_list(params, info, opts = {}) {
     const tweets = await this.t.get('favorites/list', params);
-    const rss = this._make_rss(info, tweets);
+    const filtered_tweets = this._filter_tweets(tweets, opts.filters);
+    const rss = this._make_rss(info, filtered_tweets);
     return rss;
   }
 
@@ -67,10 +78,11 @@ class TwitterRSSFeed {
    * @returns {Promise<string>} A RSS feed.
    * @see {@link https://developer.twitter.com/en/docs/tweets/search/api-reference/get-search-tweets|Standard search API — Twitter Developers}
    */
-  async search_tweets(params, info, opts) {
+  async search_tweets(params, info, opts = {}) {
     const searched = await this.t.get('search/tweets', params);
     const tweets = searched.statuses;
-    const rss = this._make_rss(info, tweets);
+    const filtered_tweets = this._filter_tweets(tweets, opts.filters);
+    const rss = this._make_rss(info, filtered_tweets);
     return rss;
   }
  
@@ -114,7 +126,27 @@ class TwitterRSSFeed {
       return tweet.full_text ? tweet.full_text : tweet.text;
     }
   }
+
+  _filter_tweets(tweets, filters) {
+    if (!filters) {
+      return tweets;
+    }
+    for (let filter of filters) {
+      tweets = filter.filter(tweets);
+    }
+    return tweets;
+  }
+
+  /**
+   * Returns a filter object that extracts only the public user's tweets.
+   * @returns {Filter} A filter object that extracts only the public user's tweets
+   */
+  static public_users_filter() {
+    return new PublicUsersFilter();
+  }
 }
+
+//TwitterRSSFeed.ProtectedUserFilter = ProtectedUserFilter;
 
 module.exports = TwitterRSSFeed;
 
