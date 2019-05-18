@@ -1,5 +1,8 @@
 'use strict';
 
+const Twitter = require('twitter');
+jest.mock('twitter');
+
 describe('Test a class TwitterRSSFeed', () => {
 
   const TwitterRSSFeed = require('../index');
@@ -14,6 +17,48 @@ describe('Test a class TwitterRSSFeed', () => {
 
   test('Create a instance', () => {
     expect(trf).toEqual(expect.anything());
+  });
+
+  test('Call favorites_list', async () => {
+
+    const getMock = jest.fn((path, params) => {
+      return Promise.resolve(require('./data/favorites_list.json'));
+    });
+    Twitter.mockImplementation(() => {
+      return {
+        get: getMock,
+      };
+    });
+
+    const trf = new TwitterRSSFeed({
+      consumer_key: 'YOUR_CONSUMER_KEY',
+      consumer_secret: 'YOUR_CONSUMER_SECRET',
+      token: 'YOUR_ACCESS_TOKEN',
+      token_secret: 'YOUR_ACCESS_SECRET'
+    });
+
+    const params = {
+      'screen_name' : 'YOUR_SCREEN_NAME',
+      'count' : '20',
+      'tweet_mode' : 'extended'
+    };
+    const info = {
+      'channel' : {
+        'title' : 'Your RSS feed title',
+        'description' : 'Your RSS feed title',
+        'link' : 'https://twitter.com/YOUR_SCREEN_NAME'
+      }
+    };
+   
+    await trf.favorites_list(params, info).then(async (rss) => {
+      const parser = new Parser();
+      const feed = await parser.parseString(rss);
+      expect(feed.items[0].title).toEqual('@maigolab_test: "TEST: more than 140 characters. TEST,TEST,TEST,TEST,TEST,TEST,TEST,TEST,TEST,TEST,TEST,TEST,TEST,TEST,TEST,TEST,TEST,TEST,TEST,TEST,TEST,TEST,TEST,TEST,TEST,TEST,TEST,TEST,TEST,TEST,TEST,TEST,TEST,TEST,TEST,TEST,TEST,TEST,TEST,TEST,TEST,TEST,TEST,TEST,TEST,TEST,TEST,TEST,TEST,ZZZ" / Twitter');
+    }).catch((error) => {
+      console.log(error);
+    });;
+
+    expect.assertions(1);
   });
 
   describe('Call _make_rss', () => {
