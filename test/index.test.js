@@ -19,6 +19,51 @@ describe('Test a class TwitterRSSFeed', () => {
     expect(trf).toEqual(expect.anything());
   });
 
+  test('Call statuses_user_timeline', async () => {
+
+    expect.assertions(1);
+
+    const getMock = jest.fn((path, params) => {
+      return Promise.resolve(require('./data/statuses_user_timeline.json'));
+    });
+    Twitter.mockImplementation(() => {
+      return {
+        get: getMock,
+      };
+    });
+
+    const trf = new TwitterRSSFeed({
+      consumer_key: 'YOUR_CONSUMER_KEY',
+      consumer_secret: 'YOUR_CONSUMER_SECRET',
+      token: 'YOUR_ACCESS_TOKEN',
+      token_secret: 'YOUR_ACCESS_SECRET'
+    });
+
+    // parameters for Twitter API (GET statuses/user_timeline)
+    const params = {
+      'screen_name' : 'YOUR_SCREEN_NAME',
+      'count' : '20',
+      'tweet_mode' : 'extended'
+    };
+    
+    // information of RSS feed
+    const info = {
+      'channel' : {
+        'title' : 'Your RSS feed title',
+        'description' : 'Your RSS feed title',
+        'link' : 'https://twitter.com/YOUR_SCREEN_NAME'
+      }
+    };
+
+    await trf.statuses_user_timeline(params, info).then(async (rss) => {
+      const parser = new Parser();
+      const feed = await parser.parseString(rss);
+      expect(feed.items[0].title).toEqual('@niwasawa: "test: more than 140 characters. test,test,test,test,test,test,test,test,test,test,test,test,test,test,test,test,test,test,test,test,test,test,test,test,test,test,test,test,test,test,test,test,test,test,test,test,test,test,test,test,test,test,test,test,test,test,test,test,test,xyz" / Twitter');
+    }).catch((error) => {
+      console.log(error);
+    });;
+  });
+ 
   test('Call favorites_list', async () => {
 
     expect.assertions(1);
@@ -39,19 +84,22 @@ describe('Test a class TwitterRSSFeed', () => {
       token_secret: 'YOUR_ACCESS_SECRET'
     });
 
+    // parameters for Twitter API (GET favorites/list)
     const params = {
       'screen_name' : 'YOUR_SCREEN_NAME',
       'count' : '20',
       'tweet_mode' : 'extended'
     };
+    
+    // information of RSS feed
     const info = {
       'channel' : {
         'title' : 'Your RSS feed title',
         'description' : 'Your RSS feed title',
-        'link' : 'https://twitter.com/YOUR_SCREEN_NAME'
+        'link' : 'https://twitter.com/YOUR_SCREEN_NAME/likes'
       }
     };
-   
+
     await trf.favorites_list(params, info).then(async (rss) => {
       const parser = new Parser();
       const feed = await parser.parseString(rss);
@@ -61,6 +109,52 @@ describe('Test a class TwitterRSSFeed', () => {
     });;
   });
 
+  test('Call search_tweets', async () => {
+
+    expect.assertions(1);
+
+    const getMock = jest.fn((path, params) => {
+      return Promise.resolve(require('./data/search_tweets.json'));
+    });
+    Twitter.mockImplementation(() => {
+      return {
+        get: getMock,
+      };
+    });
+
+    const trf = new TwitterRSSFeed({
+      consumer_key: 'YOUR_CONSUMER_KEY',
+      consumer_secret: 'YOUR_CONSUMER_SECRET',
+      token: 'YOUR_ACCESS_TOKEN',
+      token_secret: 'YOUR_ACCESS_SECRET'
+    });
+
+    // parameters for Twitter API (Standard search API)
+    const params = {
+      'q' : 'SEARCH_QUERY',
+      'count' : '20',
+      'tweet_mode' : 'extended'
+    };
+    
+    // information of RSS feed
+    const info = {
+      'channel' : {
+        'title' : 'Your RSS feed title',
+        'description' : 'Your RSS feed title',
+        'link' : 'https://twitter.com/search?q=SEARCH_QUERY'
+      }
+    };
+   
+    await trf.search_tweets(params, info).then(async (rss) => {
+      const parser = new Parser();
+      const feed = await parser.parseString(rss);
+      expect(feed.items[0].title).toEqual('@niwasawa: "search_test_maigolab: more than 140 characters. search test maigolab,TEST,TEST,TEST,TEST,TEST,TEST,TEST,TEST,TEST,TEST,TEST,TEST,TEST,TEST,TEST,TEST,TEST,TEST,TEST,TEST,TEST,TEST,TEST,TEST,TEST,TEST,TEST,TEST,TEST,TEST,TEST,TEST,TEST,TEST,TEST,TEST,TEST,TEST,TEST,TEST,TEST,ZZZZZZ" / Twitter');
+    }).catch((error) => {
+      console.log(error);
+    });;
+  });
+ 
+ 
   describe('Call _make_rss', () => {
 
     const info = {
