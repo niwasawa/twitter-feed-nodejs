@@ -146,7 +146,5 @@ class TwitterRSSFeed {
   }
 }
 
-//TwitterRSSFeed.ProtectedUserFilter = ProtectedUserFilter;
-
 module.exports = TwitterRSSFeed;
 
