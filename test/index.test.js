@@ -64,49 +64,103 @@ describe('Test a class TwitterRSSFeed', () => {
     });;
   });
  
-  test('Call favorites_list', async () => {
+  describe('Call favorites_list', () => {
 
-    expect.assertions(1);
-
-    const getMock = jest.fn((path, params) => {
-      return Promise.resolve(require('./data/favorites_list.json'));
-    });
-    Twitter.mockImplementation(() => {
-      return {
-        get: getMock,
+    test('Call favorites_list', async () => {
+  
+      expect.assertions(1);
+  
+      const getMock = jest.fn((path, params) => {
+        return Promise.resolve(require('./data/favorites_list.json'));
+      });
+      Twitter.mockImplementation(() => {
+        return {
+          get: getMock,
+        };
+      });
+  
+      const trf = new TwitterRSSFeed({
+        consumer_key: 'YOUR_CONSUMER_KEY',
+        consumer_secret: 'YOUR_CONSUMER_SECRET',
+        token: 'YOUR_ACCESS_TOKEN',
+        token_secret: 'YOUR_ACCESS_SECRET'
+      });
+  
+      // parameters for Twitter API (GET favorites/list)
+      const params = {
+        'screen_name' : 'YOUR_SCREEN_NAME',
+        'count' : '20',
+        'tweet_mode' : 'extended'
       };
+      
+      // information of RSS feed
+      const info = {
+        'channel' : {
+          'title' : 'Your RSS feed title',
+          'description' : 'Your RSS feed title',
+          'link' : 'https://twitter.com/YOUR_SCREEN_NAME/likes'
+        }
+      };
+  
+      await trf.favorites_list(params, info).then(async (rss) => {
+        const parser = new Parser();
+        const feed = await parser.parseString(rss);
+        expect(feed.items[0].title).toEqual('@maigolab_test: "TEST: more than 140 characters. TEST,TEST,TEST,TEST,TEST,TEST,TEST,TEST,TEST,TEST,TEST,TEST,TEST,TEST,TEST,TEST,TEST,TEST,TEST,TEST,TEST,TEST,TEST,TEST,TEST,TEST,TEST,TEST,TEST,TEST,TEST,TEST,TEST,TEST,TEST,TEST,TEST,TEST,TEST,TEST,TEST,TEST,TEST,TEST,TEST,TEST,TEST,TEST,TEST,ZZZ" / Twitter');
+      }).catch((error) => {
+        console.log(error);
+      });;
     });
 
-    const trf = new TwitterRSSFeed({
-      consumer_key: 'YOUR_CONSUMER_KEY',
-      consumer_secret: 'YOUR_CONSUMER_SECRET',
-      token: 'YOUR_ACCESS_TOKEN',
-      token_secret: 'YOUR_ACCESS_SECRET'
+    test('Call favorites_list with PublicUsersFilter', async () => {
+  
+      expect.assertions(1);
+  
+      const getMock = jest.fn((path, params) => {
+        return Promise.resolve(require('./data/favorites_list.json'));
+      });
+      Twitter.mockImplementation(() => {
+        return {
+          get: getMock,
+        };
+      });
+  
+      const trf = new TwitterRSSFeed({
+        consumer_key: 'YOUR_CONSUMER_KEY',
+        consumer_secret: 'YOUR_CONSUMER_SECRET',
+        token: 'YOUR_ACCESS_TOKEN',
+        token_secret: 'YOUR_ACCESS_SECRET'
+      });
+  
+      // parameters for Twitter API (GET favorites/list)
+      const params = {
+        'screen_name' : 'YOUR_SCREEN_NAME',
+        'count' : '20',
+        'tweet_mode' : 'extended'
+      };
+      
+      // information of RSS feed
+      const info = {
+        'channel' : {
+          'title' : 'Your RSS feed title',
+          'description' : 'Your RSS feed title',
+          'link' : 'https://twitter.com/YOUR_SCREEN_NAME/likes'
+        }
+      };
+
+      // options
+      const opts = {
+        'filters' : [TwitterRSSFeed.public_users_filter()]
+      };
+  
+      await trf.favorites_list(params, info, opts).then(async (rss) => {
+        const parser = new Parser();
+        const feed = await parser.parseString(rss);
+        expect(feed.items.length).toEqual(2);
+      }).catch((error) => {
+        console.log(error);
+      });;
     });
 
-    // parameters for Twitter API (GET favorites/list)
-    const params = {
-      'screen_name' : 'YOUR_SCREEN_NAME',
-      'count' : '20',
-      'tweet_mode' : 'extended'
-    };
-    
-    // information of RSS feed
-    const info = {
-      'channel' : {
-        'title' : 'Your RSS feed title',
-        'description' : 'Your RSS feed title',
-        'link' : 'https://twitter.com/YOUR_SCREEN_NAME/likes'
-      }
-    };
-
-    await trf.favorites_list(params, info).then(async (rss) => {
-      const parser = new Parser();
-      const feed = await parser.parseString(rss);
-      expect(feed.items[0].title).toEqual('@maigolab_test: "TEST: more than 140 characters. TEST,TEST,TEST,TEST,TEST,TEST,TEST,TEST,TEST,TEST,TEST,TEST,TEST,TEST,TEST,TEST,TEST,TEST,TEST,TEST,TEST,TEST,TEST,TEST,TEST,TEST,TEST,TEST,TEST,TEST,TEST,TEST,TEST,TEST,TEST,TEST,TEST,TEST,TEST,TEST,TEST,TEST,TEST,TEST,TEST,TEST,TEST,TEST,TEST,ZZZ" / Twitter');
-    }).catch((error) => {
-      console.log(error);
-    });;
   });
 
   test('Call search_tweets', async () => {
@@ -224,6 +278,25 @@ describe('Test a class TwitterRSSFeed', () => {
       expect(feed.items[0].content).toEqual('search_test_maigolab: more than 140 characters. search test maigolab,TEST,TEST,TEST,TEST,TEST,TEST,TEST,TEST,TEST,TEST,TEST,TEST,TEST,TEST,TEST,TEST,TEST,TEST,TEST,TEST,TEST,TEST,TEST,TEST,TEST,TEST,TEST,TEST,TEST,TEST,TEST,TEST,TEST,TEST,TEST,TEST,TEST,TEST,TEST,TEST,TEST,ZZZZZZ');
     });
 
+  });
+
+});
+
+describe('Test a class PublicUsersFilter', () => {
+
+  const TwitterRSSFeed = require('../index');
+
+  test('filter', () => {
+    const filter = TwitterRSSFeed.public_users_filter();
+    const tweets = require('./data/favorites_list.json');
+    expect(tweets.length).toBe(3);
+    expect(tweets[0].user.protected).toBe(true);
+    expect(tweets[1].user.protected).toBe(false);
+    expect(tweets[2].user.protected).toBe(false);
+    const filtered_tweets = filter.filter(tweets);
+    expect(filtered_tweets.length).toBe(2);
+    expect(filtered_tweets[0].user.protected).toBe(false);
+    expect(filtered_tweets[1].user.protected).toBe(false);
   });
 
 });

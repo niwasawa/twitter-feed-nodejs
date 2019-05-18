@@ -70,8 +70,14 @@ const info = {
   }
 };
 
+// set this filter to opts.filters
+// if you want to extract only the tweets of public user's tweets
+const opts = {
+  'filters': [TwitterRSSFeed.public_users_filter()]
+};
+
 // create RSS feed
-const rss = await trf.favorites_list(params, info);
+const rss = await trf.favorites_list(params, info, opts);
 console.log(rss);
 ```
 
