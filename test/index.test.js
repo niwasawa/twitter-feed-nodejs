@@ -21,6 +21,8 @@ describe('Test a class TwitterRSSFeed', () => {
 
   test('Call favorites_list', async () => {
 
+    expect.assertions(1);
+
     const getMock = jest.fn((path, params) => {
       return Promise.resolve(require('./data/favorites_list.json'));
     });
@@ -57,8 +59,6 @@ describe('Test a class TwitterRSSFeed', () => {
     }).catch((error) => {
       console.log(error);
     });;
-
-    expect.assertions(1);
   });
 
   describe('Call _make_rss', () => {
