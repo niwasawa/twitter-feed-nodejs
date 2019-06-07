@@ -105,6 +105,46 @@ const rss = await trf.search_tweets(params, info);
 console.log(rss);
 ```
 
+### Uses formatter
+
+```node.js
+// parameters for Twitter API (GET statuses/user_timeline)
+const params = {
+  'screen_name' : 'YOUR_SCREEN_NAME',
+  'count' : '20',
+  'tweet_mode' : 'extended'
+};
+
+// information of RSS feed
+const info = {
+  'channel' : {
+    'title' : 'Your RSS feed title',
+    'description' : 'Your RSS feed title',
+    'link' : 'https://twitter.com/YOUR_SCREEN_NAME'
+  }
+};
+
+// create formatter function
+const my_formatter = function(tweet) {
+  const text = tweet.full_text ? tweet.full_text : tweet.text;
+  return {
+    title: '@' + tweet.user.screen_name + ': "' + text + '" / Twitter',
+    description: text,
+    link: 'https://twitter.com/' + tweet.user.screen_name + '/status/' + tweet.id_str,
+    date: new Date(tweet.created_at)
+  };
+};
+
+// set your formatter to opts.formatter
+const opts = {
+  'formatter': my_formatter
+};
+
+// create RSS feed
+const rss = await trf.statuses_user_timeline(params, info, opts);
+console.log(rss);
+```
+
 ### Uses promise object
 
 ```nodejs
