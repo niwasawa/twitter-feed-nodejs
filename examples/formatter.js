@@ -53,8 +53,7 @@
       };
     };
 
-    // set this filter to opts.filters
-    // if you want to extract only the tweets of public user's tweets
+    // set your formatter to opts.formatter
     const opts = {
       'formatter': my_formatter
     };
