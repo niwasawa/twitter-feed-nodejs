@@ -98,7 +98,7 @@ class TwitterRSSFeed {
       const text = this._get_text(tweet);
       const url = 'https://twitter.com/' + tweet.user.screen_name + '/status/' + tweet.id_str;
       feed.addItem({
-        title: '@' + tweet.user.screen_name + ': "' + text + '" / Twitter',
+        title: tweet.user.name + ' on Twitter: "' + text + '" / Twitter',
         description: text,
         link: url,
         date: new Date(tweet.created_at)
