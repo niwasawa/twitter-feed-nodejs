@@ -4,15 +4,6 @@ const Twitter = require('twitter');
 const Feed = require('feed').Feed;
 
 /*
- * PublicUsersFilter class.
- */
-class PublicUsersFilter {
-  filter(tweets) {
-    return tweets.filter(tweet => !tweet.user.protected);
-  }
-}
-
-/*
  * Standard formatter.
  */
 function standard_formatter(tweet) {
@@ -147,17 +138,19 @@ class TwitterRSSFeed {
       return tweets;
     }
     for (let filter of filters) {
-      tweets = filter.filter(tweets);
+      tweets = filter(tweets);
     }
     return tweets;
   }
 
   /**
-   * Returns a filter object that extracts only the public user's tweets.
-   * @returns {Filter} A filter object that extracts only the public user's tweets
+   * Returns a filter function that extracts only the public user's tweets.
+   * @returns {function} A filter function that extracts only the public user's tweets
    */
   static public_users_filter() {
-    return new PublicUsersFilter();
+    return function(tweets) {
+      return tweets.filter(tweet => !tweet.user.protected);
+    };
   }
 }
 

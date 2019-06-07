@@ -293,7 +293,7 @@ describe('Test a class PublicUsersFilter', () => {
     expect(tweets[0].user.protected).toBe(true);
     expect(tweets[1].user.protected).toBe(false);
     expect(tweets[2].user.protected).toBe(false);
-    const filtered_tweets = filter.filter(tweets);
+    const filtered_tweets = filter(tweets);
     expect(filtered_tweets.length).toBe(2);
     expect(filtered_tweets[0].user.protected).toBe(false);
     expect(filtered_tweets[1].user.protected).toBe(false);
