@@ -12,6 +12,42 @@ class PublicUsersFilter {
   }
 }
 
+/*
+ * StandardFormatter class.
+ */
+class StandardFormatter {
+
+  format(tweet) {
+    const text = this._get_text(tweet);
+    const url = 'https://twitter.com/' + tweet.user.screen_name + '/status/' + tweet.id_str;
+    return {
+      title: tweet.user.name + ' on Twitter: "' + text + '" / Twitter',
+      description: text,
+      link: url,
+      date: new Date(tweet.created_at)
+    };
+  }
+
+  _get_text(tweet) {
+    // Use full_text for more than 140 characters.
+    //
+    // ref. Tweet updates — Twitter Developers
+    // https://developer.twitter.com/en/docs/tweets/tweet-updates.html
+    if (tweet.retweeted_status) {
+      let text;
+      if (tweet.retweeted_status.full_text) {
+        text = tweet.retweeted_status.full_text;
+      } else {
+        text = tweet.retweeted_status.text;
+      }
+      const screen_name = tweet.retweeted_status.user.screen_name;
+      return 'RT @' + screen_name + ': ' + text;
+    } else {
+      return tweet.full_text ? tweet.full_text : tweet.text;
+    }
+  }
+}
+
 /**
  * TwitterRSSFeed class.
  */
@@ -51,7 +87,7 @@ class TwitterRSSFeed {
   async statuses_user_timeline(params, info, opts = {}) {
     const tweets = await this.t.get('statuses/user_timeline', params);
     const filtered_tweets = this._filter_tweets(tweets, opts.filters);
-    const rss = this._make_rss(info, filtered_tweets);
+    const rss = this._make_rss(info, filtered_tweets, opts.formatter);
     return rss;
   }
 
@@ -66,7 +102,7 @@ class TwitterRSSFeed {
   async favorites_list(params, info, opts = {}) {
     const tweets = await this.t.get('favorites/list', params);
     const filtered_tweets = this._filter_tweets(tweets, opts.filters);
-    const rss = this._make_rss(info, filtered_tweets);
+    const rss = this._make_rss(info, filtered_tweets, opts.formatter);
     return rss;
   }
 
@@ -82,11 +118,11 @@ class TwitterRSSFeed {
     const searched = await this.t.get('search/tweets', params);
     const tweets = searched.statuses;
     const filtered_tweets = this._filter_tweets(tweets, opts.filters);
-    const rss = this._make_rss(info, filtered_tweets);
+    const rss = this._make_rss(info, filtered_tweets, opts.formatter);
     return rss;
   }
  
-  _make_rss(info, tweets) {
+  _make_rss(info, tweets, formatter) {
 
     const feed = new Feed({
       title: info.channel.title,
@@ -94,37 +130,16 @@ class TwitterRSSFeed {
       link: info.channel.link
     });
 
+    if (!formatter) {
+      formatter = new StandardFormatter();
+    }
+
     tweets.forEach(tweet => {
-      const text = this._get_text(tweet);
-      const url = 'https://twitter.com/' + tweet.user.screen_name + '/status/' + tweet.id_str;
-      feed.addItem({
-        title: tweet.user.name + ' on Twitter: "' + text + '" / Twitter',
-        description: text,
-        link: url,
-        date: new Date(tweet.created_at)
-      });
+      const item = formatter.format(tweet);
+      feed.addItem(item);
     });
 
     return feed.rss2();
-  }
-
-  _get_text(tweet) {
-    // Use full_text for more than 140 characters.
-    //
-    // ref. Tweet updates — Twitter Developers
-    // https://developer.twitter.com/en/docs/tweets/tweet-updates.html
-    if (tweet.retweeted_status) {
-      let text;
-      if (tweet.retweeted_status.full_text) {
-        text = tweet.retweeted_status.full_text;
-      } else {
-        text = tweet.retweeted_status.text;
-      }
-      const screen_name = tweet.retweeted_status.user.screen_name;
-      return 'RT @' + screen_name + ': ' + text;
-    } else {
-      return tweet.full_text ? tweet.full_text : tweet.text;
-    }
   }
 
   _filter_tweets(tweets, filters) {
