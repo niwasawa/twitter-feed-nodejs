@@ -13,22 +13,11 @@ class PublicUsersFilter {
 }
 
 /*
- * StandardFormatter class.
+ * Standard formatter.
  */
-class StandardFormatter {
+function standard_formatter(tweet) {
 
-  format(tweet) {
-    const text = this._get_text(tweet);
-    const url = 'https://twitter.com/' + tweet.user.screen_name + '/status/' + tweet.id_str;
-    return {
-      title: tweet.user.name + ' on Twitter: "' + text + '" / Twitter',
-      description: text,
-      link: url,
-      date: new Date(tweet.created_at)
-    };
-  }
-
-  _get_text(tweet) {
+  const get_text = function(tweet) {
     // Use full_text for more than 140 characters.
     //
     // ref. Tweet updates — Twitter Developers
@@ -45,7 +34,17 @@ class StandardFormatter {
     } else {
       return tweet.full_text ? tweet.full_text : tweet.text;
     }
-  }
+  };
+
+  const text = get_text(tweet);
+  const url = 'https://twitter.com/' + tweet.user.screen_name + '/status/' + tweet.id_str;
+
+  return {
+    title: tweet.user.name + ' on Twitter: "' + text + '" / Twitter',
+    description: text,
+    link: url,
+    date: new Date(tweet.created_at)
+  };
 }
 
 /**
@@ -131,11 +130,12 @@ class TwitterRSSFeed {
     });
 
     if (!formatter) {
-      formatter = new StandardFormatter();
+      formatter = standard_formatter;
+      //formatter = new StandardFormatter();
     }
 
     tweets.forEach(tweet => {
-      const item = formatter.format(tweet);
+      const item = formatter(tweet);
       feed.addItem(item);
     });
 
