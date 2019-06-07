@@ -53,6 +53,13 @@ class TwitterRSSFeed {
    */
 
   /**
+   * Options.
+   * @typedef {Object} Options
+   * @property {function} format - Formatter function
+   * @property {function[]} filters - Array of filter function
+   */
+
+  /**
    * Creates a instance of TwitterRSSFeed.
    * @param {Credentials} credentials - Twitter credentials
    * @constructor
@@ -70,7 +77,7 @@ class TwitterRSSFeed {
    * Returns a RSS feed of Twitter API (GET statuses/user_timeline).
    * @param {Object} params - Parameters of Twitter API (GET statuses/user_timeline).
    * @param {Object} info - A RSS information.
-   * @param {Object} opts - Unimplemented.
+   * @param {Options} opts - Options.
    * @returns {Promise<string>} A RSS feed.
    * @see {@link https://developer.twitter.com/en/docs/tweets/timelines/api-reference/get-statuses-user_timeline|GET statuses/user_timeline — Twitter Developers}
    */
@@ -85,7 +92,7 @@ class TwitterRSSFeed {
    * Returns a RSS feed of Twitter API (GET favorites/list).
    * @param {Object} params - Parameters of Twitter API (GET favorites/list).
    * @param {Object} info - A RSS information.
-   * @param {Object} opts - Unimplemented.
+   * @param {Options} opts - Options.
    * @returns {Promise<string>} A RSS feed.
    * @see {@link https://developer.twitter.com/en/docs/tweets/post-and-engage/api-reference/get-favorites-list|GET favorites/list — Twitter Developers}
    */
@@ -100,7 +107,7 @@ class TwitterRSSFeed {
    * Returns a RSS feed of Twitter API (Standard search API).
    * @param {Object} params - Parameters of Twitter API (Standard search API).
    * @param {Object} info - A RSS information.
-   * @param {Object} opts - Unimplemented.
+   * @param {Options} opts - Options.
    * @returns {Promise<string>} A RSS feed.
    * @see {@link https://developer.twitter.com/en/docs/tweets/search/api-reference/get-search-tweets|Standard search API — Twitter Developers}
    */
