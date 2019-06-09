@@ -31,7 +31,7 @@ function standard_formatter(tweet) {
   const url = 'https://twitter.com/' + tweet.user.screen_name + '/status/' + tweet.id_str;
 
   return {
-    title: tweet.user.name + ' on Twitter: "' + text + '" / Twitter',
+    title: tweet.user.name + ' (@' + tweet.user.screen_name + ') on Twitter: "' + text + '" / Twitter',
     description: text,
     link: url,
     date: new Date(tweet.created_at)
