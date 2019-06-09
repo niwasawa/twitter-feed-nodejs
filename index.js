@@ -3,41 +3,6 @@
 const Twitter = require('twitter');
 const Feed = require('feed').Feed;
 
-/*
- * Standard formatter.
- */
-function standard_formatter(tweet) {
-
-  const get_text = function(tweet) {
-    // Use full_text for more than 140 characters.
-    //
-    // ref. Tweet updates — Twitter Developers
-    // https://developer.twitter.com/en/docs/tweets/tweet-updates.html
-    if (tweet.retweeted_status) {
-      let text;
-      if (tweet.retweeted_status.full_text) {
-        text = tweet.retweeted_status.full_text;
-      } else {
-        text = tweet.retweeted_status.text;
-      }
-      const screen_name = tweet.retweeted_status.user.screen_name;
-      return 'RT @' + screen_name + ': ' + text;
-    } else {
-      return tweet.full_text ? tweet.full_text : tweet.text;
-    }
-  };
-
-  const text = get_text(tweet);
-  const url = 'https://twitter.com/' + tweet.user.screen_name + '/status/' + tweet.id_str;
-
-  return {
-    title: tweet.user.name + ' (@' + tweet.user.screen_name + ') on Twitter: "' + text + '" / Twitter',
-    description: text,
-    link: url,
-    date: new Date(tweet.created_at)
-  };
-}
-
 /**
  * TwitterRSSFeed class.
  */
@@ -128,8 +93,7 @@ class TwitterRSSFeed {
     });
 
     if (!formatter) {
-      formatter = standard_formatter;
-      //formatter = new StandardFormatter();
+      formatter = TwitterRSSFeed.standard_formatter();
     }
 
     tweets.forEach(tweet => {
@@ -149,6 +113,44 @@ class TwitterRSSFeed {
     }
     return tweets;
   }
+
+  /**
+   * Returns a standard formatter function.
+   * @returns {function} A standard formatter function
+   */
+  static standard_formatter() {
+
+    return function(tweet) {
+
+      const get_text = function(tweet) {
+        // Use full_text for more than 140 characters.
+        //
+        // ref. Tweet updates — Twitter Developers
+        // https://developer.twitter.com/en/docs/tweets/tweet-updates.html
+        if (tweet.retweeted_status) {
+          let text;
+          if (tweet.retweeted_status.full_text) {
+            text = tweet.retweeted_status.full_text;
+          } else {
+            text = tweet.retweeted_status.text;
+          }
+          const screen_name = tweet.retweeted_status.user.screen_name;
+          return 'RT @' + screen_name + ': ' + text;
+        } else {
+          return tweet.full_text ? tweet.full_text : tweet.text;
+        }
+      };
+
+      const text = get_text(tweet);
+
+      return {
+        title: tweet.user.name + ' (@' + tweet.user.screen_name + ') on Twitter: "' + text + '" / Twitter',
+        description: text,
+        link: 'https://twitter.com/' + tweet.user.screen_name + '/status/' + tweet.id_str,
+        date: new Date(tweet.created_at)
+      };
+    };
+ }
 
   /**
    * Returns a filter function that extracts only the public user's tweets.
