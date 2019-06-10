@@ -105,6 +105,39 @@ const rss = await trf.search_tweets(params, info);
 console.log(rss);
 ```
 
+### Uses get and rss methods
+
+```node.js
+// path of Twitter API (Ex. 'statuses/user_timeline')
+const path = 'statuses/user_timeline';
+
+// parameters for Twitter API (GET statuses/user_timeline)
+const params = {
+  'screen_name' : 'YOUR_SCREEN_NAME',
+  'count' : '20',
+  'tweet_mode' : 'extended'
+};
+
+// get tweet objects
+const tweets = await trf.get(path, params);
+
+// information of RSS feed
+const info = {
+  'channel' : {
+    'title' : 'Your RSS feed title',
+    'description' : 'Your RSS feed title',
+    'link' : 'https://twitter.com/YOUR_SCREEN_NAME'
+  }
+};
+
+// options
+const opts = {};
+
+// create RSS feed
+const rss = trf.rss(tweets, info, opts);
+console.log(rss);
+```
+
 ### Uses formatter
 
 ```node.js
