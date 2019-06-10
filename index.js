@@ -42,7 +42,7 @@ class TwitterRSSFeed {
    * Returns a response object of Twitter API.
    * @param {string} path - Path of Twitter API (Ex. 'statuses/user_timeline').
    * @param {Object} params - Parameters of Twitter API.
-   * @returns {Promise<string>} A response object of Twitter API.
+   * @returns {Promise<Object>} A response object of Twitter API.
    * @see {@link https://developer.twitter.com/en/docs/api-reference-index|API reference index — Twitter Developers}
    */
   async get(path, params) {
